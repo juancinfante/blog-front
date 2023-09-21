@@ -4,7 +4,7 @@ import swal from 'sweetalert'
 import api from '../api/api';
 import { useEffect, useState } from 'react';
 
-export const CardArticulo = ({id,titulo,desc,fecha, img}) => {
+export const CardArticulo = ({id,titulo,desc,autor,fecha, img}) => {
 
   const dia = fecha.split('T');
   const hora = dia[1].split(":").slice(0, 2).join(":");
@@ -14,7 +14,7 @@ export const CardArticulo = ({id,titulo,desc,fecha, img}) => {
   const getuser = async () => {
     try {
       const resp = await api.get(`auth/usuario/${ID}`);
-      setRol(resp.data.usuario[0].rol);
+      setRol(resp.data.usuario.rol);
     } catch (error) {
       console.log(error);
     }
@@ -69,8 +69,8 @@ export const CardArticulo = ({id,titulo,desc,fecha, img}) => {
         </div>
         </> : ''}
         </div>
-        <p><strong>by ADMIN </strong>{dia[0] +" - "+ dia[1].split(":").slice(0, 2).join(":")}</p>
-        <p>Este jueves 14 de septiembre desde las 22, La Casa del Folclorista de Santiago del Estero estará compartiendo una noche plena de música con Pigu Herrera.</p>
+        <p><strong>by {autor} </strong>{dia[0] +" - "+ dia[1].split(":").slice(0, 2).join(":")}</p>
+        <p dangerouslySetInnerHTML={{__html: desc}}></p>
       </div>
     </div>
    </>

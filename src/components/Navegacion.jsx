@@ -12,7 +12,7 @@ export const Navegacion = () => {
   const getuser = async () => {
     try {
       const resp = await api.get(`auth/usuario/${ID}`);
-      setRol(resp.data.usuario[0].rol);
+      setRol(resp.data.usuario.rol);
     } catch (error) {
       console.log(error);
     }

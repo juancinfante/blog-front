@@ -23,6 +23,7 @@ export const LoginScreen = () => {
           contraseña
         })
         localStorage.setItem('id', resp.data.id);
+        localStorage.setItem('token', resp.data.token);
         swal( resp.data.msg ,  "" ,  "success" )
         navigate('/');
       } catch (error) {

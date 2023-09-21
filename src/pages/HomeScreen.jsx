@@ -3,11 +3,13 @@ import { Navegacion } from "../components/Navegacion"
 import { CardArticulo } from "../components/CardArticulo"
 import api from "../api/api"
 import { useEffect, useState } from "react"
+import { useNavigate } from "react-router"
 
 
 
 export const HomeScreen = () => {
-
+  
+  const navigate = useNavigate();
   const [articulos, setArticulos] = useState([]);
   const [usuarioID, setUsuarioid] = useState(localStorage.getItem('id'));
   const obtenerArticulos = async () => {
@@ -15,7 +17,11 @@ export const HomeScreen = () => {
       const articulos = await api.get('/articulos/articulos');
       setArticulos(articulos.data.articulos)
     } catch (error) {
-      console.log(error);
+      if(error.response.status == 401){
+        localStorage.removeItem('token');
+        localStorage.removeItem('id');
+        navigate('/login');
+      }
     }
   }
 
@@ -33,6 +39,7 @@ export const HomeScreen = () => {
             id={articulo._id}
             titulo={articulo.titulo}
             desc={articulo.descripcion}
+            autor={articulo.autor}
             fecha={articulo.created_at}
             img={articulo.imagen} />
           })}

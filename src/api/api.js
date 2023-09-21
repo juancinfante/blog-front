@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'https://blog-back-mu.vercel.app/',
+    // baseURL: 'https://blog-back-mu.vercel.app/',
+    baseURL: 'http://localhost:4001',
 })
 
 api.interceptors.request.use((config) => {

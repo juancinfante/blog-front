@@ -8,6 +8,8 @@ import api from "../api/api";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import axios from "axios";
+import swal from "sweetalert";
+import { useEffect } from "react";
 
 const modules = {
   toolbar: [
@@ -30,8 +32,10 @@ export const AdminScreen = () => {
   const instance = axios.create()
 
   const [titulo, setTitulo] = useState('');
+  const [contenido, setContenido] = useState('');
   const [descripcion, setDesc] = useState('');
   const [imagen, setImagen] = useState("");
+  const [autor, setAutor] = useState("");
   const [imageInput, setImageInput] = useState();
 
   
@@ -39,7 +43,10 @@ export const AdminScreen = () => {
     e.preventDefault();
     // Subir Imagen
     const files = imageInput;
-    const formData = new FormData();
+    if(files == undefined){
+      swal("Elige una imagen de portada." ,  "" ,  "warning" )
+    }else{
+      const formData = new FormData();
     formData.append('file', files[0]);
     formData.append("upload_preset", "test_preset");
     formData.append("cloud_name","dwjhbrsmf");
@@ -50,35 +57,53 @@ export const AdminScreen = () => {
       const resp = await api.post('/articulos/articulo',{
         titulo,
         descripcion,
+        contenido,
+        autor,
         imagen
       })
-      alert('Articulo creado!');
-      setTitulo('');
-      setDesc('');
+      swal("Articulo creado!" ,  "" ,  "warning" )
+      setTimeout(() => {
+        location.href = '/admin';
+      }, 1000);
     } catch (error) {
       console.log(error);
     }
+    }
     
+    
+  }
+  const getuser = async () => {
+    let ID = localStorage.getItem('id');
+    try {
+      const resp = await api.get(`auth/usuario/${ID}`);
+      setAutor(resp.data.usuario.username);
+    } catch (error) {
+      console.log(error);
+    }
   }
   const setImageC = (e) => {
     setImageInput(e.target.files)
   }
+
+  useEffect(() => {
+    getuser();
+  },[])
 
   return (
     <>
         <Navegacion adminpage={true}/>
         <form className="form-admin" onSubmit={enviarForm}>
           <h1>AGREGAR ARTICULO</h1>
-          <input type="text" placeholder="Titulo" value={titulo} onChange={(e) => setTitulo(e.target.value)} />
-          {/* <input type="text" placeholder="Descripcion" value={descripcion} onChange={(e) => setDesc(e.target.value)} /> */}
+          <input type="text" placeholder="Titulo" required value={titulo} onChange={(e) => setTitulo(e.target.value)} />
+          <input type="text" placeholder="Descripcion"  required value={descripcion} onChange={(e) => setDesc(e.target.value)} />
           <div>
             <p>PORTADA: </p>
           <input type="file" name='file' onChange={setImageC}/>
           </div>
           <ReactQuill
           theme="snow"
-          value={descripcion}
-          onChange={setDesc}
+          value={contenido}
+          onChange={setContenido}
           modules={modules} />
           <button type="submit">Enviar</button>
         </form>

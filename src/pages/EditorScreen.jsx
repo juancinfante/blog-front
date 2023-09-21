@@ -35,18 +35,21 @@ export const EditorScreen = () => {
 
     const [titulo, setTitulo] = useState('');
     const [descripcion, setDesc] = useState('');
-    const [imagens, setImagen] = useState();
+    const [contenido, setContenido] = useState('');
+    const [autor, setAutor] = useState('');
+    const [image, setImage] = useState('');
     const [imageInput, setImageInput] = useState();
-    const [contenido, setContenido] = useState([]);
 
     const obtenerArticulo = async () => {
 
         try {
             const resp = await api.get(`/articulos/articulo/${params.id}`);
-            setContenido(resp.data.articulo[0]);
-            const articulo = resp.data.articulo[0];
-            setTitulo(articulo.titulo);
-            setDesc(articulo.descripcion);
+            console.log(resp.data.articulo[0])
+            setTitulo(resp.data.articulo[0].titulo);            
+            setDesc(resp.data.articulo[0].descripcion);            
+            setContenido(resp.data.articulo[0].contenido);            
+            setAutor(resp.data.articulo[0].autor);            
+            setImage(resp.data.articulo[0].imagen);            
         } catch (error) {
             console.log(error)
         }
@@ -65,23 +68,17 @@ export const EditorScreen = () => {
         formData.append("cloud_name", "dwjhbrsmf");
         const res = await instance.post("https://api.cloudinary.com/v1_1/dwjhbrsmf/image/upload", formData);
         imagen = res.data.secure_url;
-        // setImagen(res.data.secure_url);
         console.log(imagen)
         }else{
-            imagen = contenido.imagen;
-            // setImagen(contenido.imagen);
-            console.log(imagen)
+            imagen = image;
         }
         try {
-            if(imagen == ""){
-                console.log("si")
-            }else{
-                console.log("no")
-            }
             const resp = await api.put('/articulos/articulo', {
                 _id,
                 titulo,
                 descripcion,
+                contenido,
+                autor,
                 imagen
             })
             console.log(resp);
@@ -105,15 +102,15 @@ export const EditorScreen = () => {
             <form className="form-admin" onSubmit={enviarForm}>
                 <h1>EDITAR ARTICULO</h1>
                 <input type="text" placeholder="Titulo" value={titulo} onChange={(e) => setTitulo(e.target.value)} />
-                {/* <input type="text" placeholder="Descripcion" value={descripcion} onChange={(e) => setDesc(e.target.value)} /> */}
+                <input type="text" placeholder="Descripcion" value={descripcion} onChange={(e) => setDesc(e.target.value)} />
                 <div>
                     <p>PORTADA: </p>
                     <input type="file" name='file' onChange={setImageC} />
                 </div>
                 <ReactQuill
                     theme="snow"
-                    value={descripcion}
-                    onChange={setDesc}
+                    value={contenido}
+                    onChange={setContenido}
                     modules={modules} />
                 <button type="submit">Enviar</button>
             </form>

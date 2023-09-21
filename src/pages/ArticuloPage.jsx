@@ -29,7 +29,7 @@ export const ArticuloPage = () => {
     const getuser = async () => {
         try {
           const resp = await api.get(`auth/usuario/${ID}`);
-          setRol(resp.data.usuario[0].rol);
+          setRol(resp.data.usuario.rol);
         } catch (error) {
           console.log(error);
         }
@@ -56,8 +56,9 @@ export const ArticuloPage = () => {
             <div className="articulo-page">
                 <div className="header">
                     <h3>{contenido.titulo}</h3>
+                    <p>{contenido.descripcion}</p>
                     <p>{dia[0] + " " + hora} </p>
-                    <p>by ADMIN</p>
+                    <p>by {contenido.autor} </p>
                     {
                         rol == "admin" ?
                         <>
@@ -76,7 +77,7 @@ export const ArticuloPage = () => {
                     }
                 </div>
                 <img src={contenido.imagen} alt="" />
-                <div className="desc" dangerouslySetInnerHTML={{__html: contenido.descripcion}}>
+                <div className="desc" dangerouslySetInnerHTML={{__html: contenido.contenido}}>
 
                 </div>
             </div>
