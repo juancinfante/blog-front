@@ -12,11 +12,14 @@ export const CardArticulo = ({id,titulo,desc,autor,fecha, img}) => {
   let ID = localStorage.getItem('id');
 
   const getuser = async () => {
-    try {
-      const resp = await api.get(`auth/usuario/${ID}`);
-      setRol(resp.data.usuario.rol);
-    } catch (error) {
-      console.log(error);
+    if(ID !== null){
+      try {
+        const resp = await api.get(`auth/usuario/${ID}`);
+        setRol(resp.data.usuario.rol);
+      } catch (error) {
+        console.log(error);
+      }
+
     }
   }
 
@@ -37,7 +40,7 @@ export const CardArticulo = ({id,titulo,desc,autor,fecha, img}) => {
             icon: "success",
           });
           setTimeout(() => {
-            location.href = '/';
+            window.location.href = '/';
           }, "1500");
           
           

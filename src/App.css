@@ -148,3 +148,33 @@ nav{
   margin-right: 10px;
 
 }
+
+
+/* COMENTARIOS */
+
+.comentarios-container{
+  width: 100%;
+  margin-top: 50px;
+}
+.comentario{
+  width: 100%;
+  display: flex;
+  margin-bottom: 20px;
+}
+.comentario img{
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+.comentarios-container h5{
+  margin-bottom: 30px;
+}
+.comentarios-container form{
+  width: 100%;
+  margin-bottom: 50px;
+}
+.comentarios-container form input{
+  width: 100%;
+  height: 40px;
+}
+

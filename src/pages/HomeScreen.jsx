@@ -33,7 +33,7 @@ export const HomeScreen = () => {
   return (
     <>
         <Navegacion />
-          {articulos.map((articulo) =>{
+          {articulos.toReversed().map((articulo) =>{
             return <CardArticulo 
             key={articulo._id}
             id={articulo._id}
