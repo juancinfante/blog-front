@@ -9,6 +9,8 @@ import { useNavigate } from "react-router"
 
 export const HomeScreen = () => {
   
+  const [search, setSearch] = useState('');
+  console.log(search);
   const navigate = useNavigate();
   const [articulos, setArticulos] = useState([]);
   const [usuarioID, setUsuarioid] = useState(localStorage.getItem('id'));
@@ -33,7 +35,13 @@ export const HomeScreen = () => {
   return (
     <>
         <Navegacion />
-          {articulos.toReversed().map((articulo) =>{
+        <input type="text" placeholder="buscar" onChange={(e) => setSearch(e.target.value)}/>
+
+          {articulos.filter((item) => {
+            return search.toLocaleLowerCase() === '' ? item : item.titulo.toLocaleLowerCase(
+              ).includes(search);
+              
+          }).toReversed().map((articulo) =>{
             return <CardArticulo 
             key={articulo._id}
             id={articulo._id}

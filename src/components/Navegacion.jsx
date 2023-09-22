@@ -7,6 +7,7 @@ import swal from "sweetalert";
 // eslint-disable-next-line react/prop-types
 export const Navegacion = () => {
 
+
   const [rol, setRol] = useState('');
   let ID = localStorage.getItem('id');
   const getuser = async () => {
