@@ -35,6 +35,8 @@ export const HomeScreen = () => {
   return (
     <>
         <Navegacion />
+    
+
         <input type="text" placeholder="buscar" onChange={(e) => setSearch(e.target.value)}/>
 
           {articulos.filter((item) => {
